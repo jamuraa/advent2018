@@ -36,19 +36,11 @@ fn letter_counts(box_id: &str) -> (bool, bool) {
 
 fn main() -> io::Result<()> {
     let f = File::open("input.txt")?;
-    let mut reader = BufReader::new(f);
+    let reader = BufReader::new(f);
 
     // Read the input in.
-    let mut box_ids = Vec::new();
-    loop {
-        let mut buffer = String::new();
-        reader.read_line(&mut buffer)?;
-        if buffer.is_empty() {
-            println!("{} box IDs", box_ids.len());
-            break;
-        }
-        box_ids.push(buffer.trim().to_string());
-    }
+    let box_ids: Vec<String> = reader.lines().map(|l| l.unwrap()).collect();
+    println!("{} box IDs", box_ids.len());
 
     let mut twice_count = 0;
     let mut thrice_count = 0;

@@ -4,41 +4,30 @@
 use std::{
     collections::HashSet,
     fs::File,
-    io::{self, prelude::*, BufReader, ErrorKind},
+    io::{self, prelude::*, BufReader},
 };
 
 fn main() -> io::Result<()> {
     let f = File::open("input.txt")?;
-    let mut reader = BufReader::new(f);
+    let reader = BufReader::new(f);
 
     // Read the input in.
-    let mut current_frequency = 0;
-    let mut pattern = Vec::new();
-    let mut buffer = String::new();
-    loop {
-        buffer.clear();
-        reader.read_line(&mut buffer)?;
-        if buffer.is_empty() {
-            println!("{} elements in the repeating sequence.", pattern.len());
-            println!("Frequency after one repeat is {}", current_frequency);
-            break;
-        }
-        let change = buffer
-            .trim()
-            .parse::<i32>()
-            .map_err(|e| io::Error::new(ErrorKind::Interrupted, e))?;
-        current_frequency = current_frequency + change;
-        pattern.push(change);
-    }
+    let pattern: Vec<_> = reader
+        .lines()
+        .map(|l| l.unwrap().parse::<i32>().unwrap())
+        .collect();
+    println!("{} elements in the repeating sequence.", pattern.len());
+    println!( "Frequency after one repeat is {}", pattern.iter().sum::<i32>());
 
-    let mut current_frequency = 0;
-    let mut steps = 0;
+    let sums = pattern.iter().cycle().scan(0, |a, &x| {
+        *a += x;
+        Some(*a)
+    });
+
     let mut reached = HashSet::new();
-    reached.insert(current_frequency);
+    reached.insert(0);
 
-    for change in pattern.iter().cycle() {
-        steps = steps + 1;
-        current_frequency = current_frequency + change;
+    for (steps, current_frequency) in sums.enumerate() {
         if reached.contains(&current_frequency) {
             println!(
                 "The first frequency reached twice is {} after {} steps.",
