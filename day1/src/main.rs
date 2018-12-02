@@ -1,18 +1,15 @@
 // Copyright 2018 Marie Janssen.  All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-use {
-    std::{
-        io::{self, prelude::*, BufReader, ErrorKind},
-        collections::HashSet,
-        fs::File,
-    }
+use std::{
+    collections::HashSet,
+    fs::File,
+    io::{self, prelude::*, BufReader, ErrorKind},
 };
 
 fn main() -> io::Result<()> {
     let f = File::open("input.txt")?;
     let mut reader = BufReader::new(f);
-
 
     // Read the input in.
     let mut current_frequency = 0;
@@ -22,10 +19,14 @@ fn main() -> io::Result<()> {
         buffer.clear();
         reader.read_line(&mut buffer)?;
         if buffer.is_empty() {
-            println!("No lines left. {} elements in the repeating sequence. Frequency after one repeat is {}", pattern.len(), current_frequency);
+            println!("{} elements in the repeating sequence.", pattern.len());
+            println!("Frequency after one repeat is {}", current_frequency);
             break;
         }
-        let change = buffer.trim().parse::<i32>().map_err(|e| io::Error::new(ErrorKind::Interrupted, e))?;
+        let change = buffer
+            .trim()
+            .parse::<i32>()
+            .map_err(|e| io::Error::new(ErrorKind::Interrupted, e))?;
         current_frequency = current_frequency + change;
         pattern.push(change);
     }
@@ -39,10 +40,13 @@ fn main() -> io::Result<()> {
         steps = steps + 1;
         current_frequency = current_frequency + change;
         if reached.contains(&current_frequency) {
-            println!("The first frequency reached twice is {} after {} steps.", current_frequency, steps);
+            println!(
+                "The first frequency reached twice is {} after {} steps.",
+                current_frequency, steps
+            );
             return Ok(());
         }
         reached.insert(current_frequency);
-    };
+    }
     Ok(())
 }
