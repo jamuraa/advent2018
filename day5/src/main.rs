@@ -1,3 +1,7 @@
+#![feature(test)]
+
+extern crate test;
+
 use std::{
     fs::File,
     io::{self, prelude::*, BufReader},
@@ -11,10 +15,26 @@ fn pair(a: u8, b: u8) -> bool {
     }
 }
 
-fn react(chars: &mut String) {
+fn caseless_match(a: u8, b: u8) -> bool {
+    match (a < 97, b < 97) {
+        (true, true) => a == b,
+        (false, true) => a == b + 32,
+        (true, false) => a + 32 == b,
+        (false, false) => a == b,
+    }
+}
+
+fn react(chars: &mut String, without: Option<u8>) {
     let mut i = 0;
     while i != chars.len() - 1 {
         let x = chars.as_bytes()[i];
+        if without.is_some() && caseless_match(x, without.unwrap()) {
+            chars.remove(i);
+            if i != 0 {
+                i -= 1;
+            }
+            continue;
+        }
         let y = chars.as_bytes()[i + 1];
         if pair(x, y) {
             chars.replace_range(i..i + 2, "");
@@ -28,12 +48,10 @@ fn react(chars: &mut String) {
             i += 1;
         }
     }
-}
-
-fn without_polymer(chars: &String, rem: &char) -> String {
-    let mut ret = chars.clone();
-    ret.retain(|x| !x.eq_ignore_ascii_case(rem));
-    ret
+    let x = chars.as_bytes()[i];
+    if without.is_some() && caseless_match(x, without.unwrap()) {
+        chars.remove(i);
+    }
 }
 
 fn main() -> io::Result<()> {
@@ -44,15 +62,15 @@ fn main() -> io::Result<()> {
     let chars: String = lines.next().unwrap().unwrap();
     let mut original = chars.clone();
 
-    react(&mut original);
+    react(&mut original, None);
     println!("Reacting original: final length {}", original.len());
 
     let mut smallest_char = 'a';
     let mut smallest_len = chars.len();
 
     for c in 'a' as u8..'{' as u8 {
-        let mut new = without_polymer(&chars, &(c as char));
-        react(&mut new);
+        let mut new = original.clone();
+        react(&mut new, Some(c));
         println!("Reacted w/o {}: length {}", c as char, new.len());
         if new.len() < smallest_len {
             smallest_char = c as char;
@@ -70,32 +88,46 @@ fn main() -> io::Result<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use test::Bencher;
 
     #[test]
     fn test_react() {
         let mut a = "AcCb".to_string();
         let a2 = "Ab";
-        react(&mut a);
+        react(&mut a, None);
         assert_eq!(a2, a);
         let mut c = "dabAcCaCBAcCcaDA".to_string();
         let c4 = "dabCBAcaDA";
-        react(&mut c);
+        react(&mut c, None);
         assert_eq!(c4, c);
-        react(&mut c);
+        react(&mut c, None);
         assert_eq!(c4, c);
     }
 
     #[test]
     fn test_without() {
         let a = "dabAcCaCBAcCcaDA".to_string();
-        let a2 = "dbcCCBcCcD";
-        assert_eq!(a2, without_polymer(&a, &'a'));
-        let a3 = "daAcCaCAcCcaDA";
-        assert_eq!(a3, without_polymer(&a, &'b'));
-        let a4 = "dabAaBAaDA";
-        assert_eq!(a4, without_polymer(&a, &'c'));
-        let a5 = "abAcCaCBAcCcaA";
-        assert_eq!(a5, without_polymer(&a, &'d'));
+        let mut b = a.clone();
+        react(&mut b, Some('a' as u8));
+        let a2 = "dbCBcD";
+        assert_eq!(a2, b);
+        let mut b = a.clone();
+        react(&mut b, Some('b' as u8));
+        let a3 = "daCAcaDA";
+        assert_eq!(a3, b);
+        let mut b = a.clone();
+        react(&mut b, Some('c' as u8));
+        let a4 = "daDA";
+        assert_eq!(a4, b);
+        let mut b = a.clone();
+        react(&mut b, Some('d' as u8));
+        let a5 = "abCBAc";
+        assert_eq!(a5, b);
+    }
+
+    #[bench]
+    fn bench_main(b: &mut Bencher) {
+        b.iter(|| main());
     }
 
 }
