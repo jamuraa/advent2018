@@ -3,21 +3,23 @@ use std::{
     io::{self, prelude::*, BufReader},
 };
 
-
 struct MetadataTree {
     children: Vec<MetadataTree>,
-    metadata: Vec<u32>
+    metadata: Vec<u32>,
 }
 
 impl MetadataTree {
-    fn parse(nums: &mut Iterator<Item=u32>) -> MetadataTree {
+    fn parse(nums: &mut Iterator<Item = u32>) -> MetadataTree {
         let mut children: Vec<MetadataTree> = Vec::new();
         let num_children = nums.next().unwrap();
         let num_metadata = nums.next().unwrap();
         for _i in 0..num_children {
             children.push(MetadataTree::parse(nums));
         }
-        MetadataTree { children, metadata: nums.take(num_metadata as usize).collect() }
+        MetadataTree {
+            children,
+            metadata: nums.take(num_metadata as usize).collect(),
+        }
     }
 
     fn all_metadata(&self) -> Vec<u32> {
@@ -63,7 +65,10 @@ fn main() -> io::Result<()> {
 
     let metadata: Vec<u32> = tree.all_metadata();
 
-    println!("Sum of all the metadata info is: {}", metadata.iter().fold(0, |a, &v| {a + v}));
+    println!(
+        "Sum of all the metadata info is: {}",
+        metadata.iter().fold(0, |a, &v| a + v)
+    );
     println!("Value of the root node is: {}", tree.value());
     Ok(())
 }

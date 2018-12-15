@@ -17,13 +17,19 @@ struct Star {
 
 impl Star {
     fn new(x: i32, y: i32, velx: i32, vely: i32) -> Star {
-        Star { position: (x, y), velocity: (velx, vely) }
+        Star {
+            position: (x, y),
+            velocity: (velx, vely),
+        }
     }
 
     fn next(&self) -> Star {
-        let new = Star::new(self.position.0 + self.velocity.0,
-                  self.position.1 + self.velocity.1,
-                  self.velocity.0, self.velocity.1);
+        let new = Star::new(
+            self.position.0 + self.velocity.0,
+            self.position.1 + self.velocity.1,
+            self.velocity.0,
+            self.velocity.1,
+        );
         //println!("Star: Old({}, {}) + ({}, {}) => ({}, {})",
         //          self.position.0, self.position.1,
         //          self.velocity.0, self.velocity.1,
@@ -33,19 +39,39 @@ impl Star {
 }
 
 fn min_x(field: &Vec<Star>) -> i32 {
-    field.iter().min_by(|x, y| x.position.0.cmp(&y.position.0)).unwrap().position.0
+    field
+        .iter()
+        .min_by(|x, y| x.position.0.cmp(&y.position.0))
+        .unwrap()
+        .position
+        .0
 }
 
 fn max_x(field: &Vec<Star>) -> i32 {
-    field.iter().max_by(|x, y| x.position.0.cmp(&y.position.0)).unwrap().position.0
+    field
+        .iter()
+        .max_by(|x, y| x.position.0.cmp(&y.position.0))
+        .unwrap()
+        .position
+        .0
 }
 
 fn min_y(field: &Vec<Star>) -> i32 {
-    field.iter().min_by(|x, y| x.position.1.cmp(&y.position.1)).unwrap().position.1
+    field
+        .iter()
+        .min_by(|x, y| x.position.1.cmp(&y.position.1))
+        .unwrap()
+        .position
+        .1
 }
 
 fn max_y(field: &Vec<Star>) -> i32 {
-    field.iter().max_by(|x, y| x.position.1.cmp(&y.position.1)).unwrap().position.1
+    field
+        .iter()
+        .max_by(|x, y| x.position.1.cmp(&y.position.1))
+        .unwrap()
+        .position
+        .1
 }
 
 fn print_stars(field: &Vec<Star>) {
@@ -59,7 +85,6 @@ fn print_stars(field: &Vec<Star>) {
     let mut sky = Vec::new();
     sky.resize(skylen as usize, '.');
 
-
     for s in field {
         let idx = (s.position.0 - min_x) + (s.position.1 - min_y) * rowspan;
         sky[idx as usize] = '#';
@@ -67,7 +92,7 @@ fn print_stars(field: &Vec<Star>) {
 
     let mut idx = 0;
     while idx < skylen {
-        let s: String = sky[idx as usize..(idx+rowspan) as usize].iter().collect();
+        let s: String = sky[idx as usize..(idx + rowspan) as usize].iter().collect();
         println!("{}", s);
         idx += rowspan;
     }
@@ -103,5 +128,3 @@ fn main() -> io::Result<()> {
     }
     Ok(())
 }
-
-

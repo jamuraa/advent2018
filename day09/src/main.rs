@@ -46,7 +46,6 @@ fn print_marbles_ring(marbles: &MarbleRing, current: usize) {
     println!("");
 }
 
-
 struct Marble {
     number: usize,
     // The next and previous marble in the ring.
@@ -56,7 +55,7 @@ struct Marble {
 
 impl Marble {
     fn new(number: usize, next: usize, prev: usize) -> Marble {
-        Marble{ number, next, prev }
+        Marble { number, next, prev }
     }
 }
 

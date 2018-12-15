@@ -17,7 +17,10 @@ fn main() -> io::Result<()> {
         .map(|l| l.unwrap().parse::<i32>().unwrap())
         .collect();
     println!("{} elements in the repeating sequence.", pattern.len());
-    println!( "Frequency after one repeat is {}", pattern.iter().sum::<i32>());
+    println!(
+        "Frequency after one repeat is {}",
+        pattern.iter().sum::<i32>()
+    );
 
     let sums = pattern.iter().cycle().scan(0, |a, &x| {
         *a += x;

@@ -11,7 +11,9 @@ struct Dag {
 
 impl Dag {
     fn new() -> Dag {
-        Dag { edges: HashMap::new() }
+        Dag {
+            edges: HashMap::new(),
+        }
     }
 
     // Adds an edge from `parent` to `child`, adding new nodes
@@ -94,7 +96,12 @@ impl Workers {
         for x in self.tasks.iter_mut() {
             x.work();
         }
-        let done: HashSet<char> = self.tasks.iter().filter(|x| x.done()).map(|x| x.task).collect();
+        let done: HashSet<char> = self
+            .tasks
+            .iter()
+            .filter(|x| x.done())
+            .map(|x| x.task)
+            .collect();
         self.tasks.retain(|x| !x.done());
         done
     }
@@ -131,7 +138,12 @@ fn order_with_workers(count: usize, mut steps: Dag) -> (String, usize) {
         println!("{}\t{:?}\t{}", second, workers.are_working(), ikea_order);
         second += 1;
     }
-    println!("With {} workers, finished in {} steps in order: {}", count, second - 1, ikea_order);
+    println!(
+        "With {} workers, finished in {} steps in order: {}",
+        count,
+        second - 1,
+        ikea_order
+    );
     (ikea_order, second - 1)
 }
 

@@ -5,7 +5,15 @@ struct Pots(VecDeque<i32>);
 
 impl Pots {
     fn new(garden: String) -> Pots {
-        Pots(garden.into_bytes().iter().enumerate().filter(|(_i, x)| **x as char == '#').map(|(i, _)| i as i32).collect())
+        Pots(
+            garden
+                .into_bytes()
+                .iter()
+                .enumerate()
+                .filter(|(_i, x)| **x as char == '#')
+                .map(|(i, _)| i as i32)
+                .collect(),
+        )
     }
 
     fn min_pot(&self) -> i32 {
@@ -39,7 +47,14 @@ impl Pots {
         pot_scan.push_back('.');
         pot_scan.push_back('#');
         while from_pot < self.max_pot() + 2 {
-            let ng_pot = match pot_scan.iter().fold(String::new(), |mut s, x| { s.push(*x); s }).as_str() {
+            let ng_pot = match pot_scan
+                .iter()
+                .fold(String::new(), |mut s, x| {
+                    s.push(*x);
+                    s
+                })
+                .as_str()
+            {
                 "....." => '.',
                 "#...." => '.',
                 "..###" => '.',
@@ -125,15 +140,14 @@ fn sum_after_generations(garden: String, gens: usize) -> i32 {
         state = state.next_generation();
         println!("{}: {}", gen, state);
         println!("Pots at: {:?}", state.0);
-        let sum: i32 =  state.0.iter().sum::<i32>();
+        let sum: i32 = state.0.iter().sum::<i32>();
         println!("Sum of {} locations: {}", state.0.len(), sum);
     }
 
-    let sum: i32 =  state.0.iter().sum::<i32>();
+    let sum: i32 = state.0.iter().sum::<i32>();
     println!("Sum of locations: {}", sum);
     sum
 }
-
 
 fn main() {
     let start = String::from("#.......##.###.#.#..##..##..#.#.###..###..##.#.#..##....#####..##.#.....########....#....##.#..##...");

@@ -8,7 +8,7 @@ use std::{
 enum CartTurnState {
     Left,
     GayilyForward,
-    Right
+    Right,
 }
 
 impl CartTurnState {
@@ -30,14 +30,18 @@ struct Cart {
 
 impl Cart {
     fn new(x: usize, y: usize, direction: char) -> Cart {
-        Cart { loc: (x, y), direction, next_turn: CartTurnState::Left,
-        last_tick: 0 }
+        Cart {
+            loc: (x, y),
+            direction,
+            next_turn: CartTurnState::Left,
+            last_tick: 0,
+        }
     }
 
     fn cart_char(c: &char) -> bool {
-        match c { 
+        match c {
             '^' | '>' | '<' | 'v' => true,
-            _ => false
+            _ => false,
         }
     }
 
@@ -86,7 +90,7 @@ impl Cart {
                 };
                 self.next_turn = self.next_turn.next();
                 dir
-            },
+            }
             _ => unreachable!(),
         };
         self.last_tick += 1;
@@ -123,7 +127,10 @@ fn main() -> io::Result<()> {
 
     let mut rows = 0;
     while let Some(Ok(line)) = lines.next() {
-        let mut this_carts: VecDeque<Cart> = line.match_indices(|c| Cart::cart_char(&c) ).map(|(ind, ch)| Cart::new(ind, rows, ch.chars().next().unwrap())).collect();
+        let mut this_carts: VecDeque<Cart> = line
+            .match_indices(|c| Cart::cart_char(&c))
+            .map(|(ind, ch)| Cart::new(ind, rows, ch.chars().next().unwrap()))
+            .collect();
         carts.append(&mut this_carts);
         let line = line.chars().map(|c| Cart::to_track(&c)).collect();
         map.push(line);
@@ -138,7 +145,11 @@ fn main() -> io::Result<()> {
         if carts.front().unwrap().last_tick != tick {
             tick += 1;
             if carts.len() == 1 {
-                println!("Only one cart left at tick {} at {:?}", tick, carts.front().unwrap().loc);
+                println!(
+                    "Only one cart left at tick {} at {:?}",
+                    tick,
+                    carts.front().unwrap().loc
+                );
                 break;
             }
             //print_map(&map, &carts);
@@ -151,7 +162,10 @@ fn main() -> io::Result<()> {
         // Did we collide
         let mut idx_remove = None;
         if let Some((idx, c)) = carts.iter().enumerate().find(|(_, c)| c.loc == new_loc) {
-            println!("Collision at tick {} at {:?}", moving_cart.last_tick, moving_cart.loc);
+            println!(
+                "Collision at tick {} at {:?}",
+                moving_cart.last_tick, moving_cart.loc
+            );
             idx_remove = Some(idx);
         }
         if let Some(idx) = idx_remove.take() {

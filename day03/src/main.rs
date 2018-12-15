@@ -89,13 +89,33 @@ mod tests {
 
     #[test]
     fn parse_claims() {
-        let claim = Claim { id: 1, start: (1, 3), width: 4, height: 4 };
+        let claim = Claim {
+            id: 1,
+            start: (1, 3),
+            width: 4,
+            height: 4,
+        };
         assert_eq!(claim, Claim::parse("#1 @ 1,3: 4x4"));
-        let claim = Claim { id: 2, start: (3, 1), width: 4, height: 4 };
+        let claim = Claim {
+            id: 2,
+            start: (3, 1),
+            width: 4,
+            height: 4,
+        };
         assert_eq!(claim, Claim::parse("#2 @ 3,1: 4x4"));
-        let claim = Claim { id: 3, start: (5, 5), width: 2, height: 2 };
+        let claim = Claim {
+            id: 3,
+            start: (5, 5),
+            width: 2,
+            height: 2,
+        };
         assert_eq!(claim, Claim::parse("#3 @ 5,5: 2x2"));
-        let claim = Claim { id: 123, start: (3, 2), width: 5, height: 4 };
+        let claim = Claim {
+            id: 123,
+            start: (3, 2),
+            width: 5,
+            height: 4,
+        };
         assert_eq!(claim, Claim::parse("#123 @ 3,2: 5x4"));
     }
 
