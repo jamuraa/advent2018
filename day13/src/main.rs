@@ -116,7 +116,6 @@ fn print_map(map: &Vec<Vec<char>>, carts: &VecDeque<Cart>) {
 fn main() -> io::Result<()> {
     let f = File::open("input.txt")?;
     let reader = BufReader::new(f);
-
     let mut lines = reader.lines();
 
     let mut map: Vec<Vec<char>> = Vec::new();
