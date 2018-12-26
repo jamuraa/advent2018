@@ -209,7 +209,7 @@ impl fmt::Display for ClayScan {
         for y in self.range_y.0..self.range_y.1 + 1 {
             for x in self.range_x.0..self.range_x.1 + 1 {
                 if self.drops.contains(&(y, x)) {
-                    print!("*");
+                    write!(f, "*")?;
                 } else if self.locations.contains(&(y, x)) {
                     write!(f, "#")?;
                 } else if self.water.contains(&(y, x)) {
