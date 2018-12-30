@@ -1,0 +1,14 @@
+[[package]]
+name = "day24"
+version = "0.1.0"
+dependencies = [
+ "splitmut 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "splitmut"
+version = "0.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[metadata]
+"checksum splitmut 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)" = "c85070f382340e8b23a75808e83573ddf65f9ad9143df9573ca37c1ed2ee956a"
