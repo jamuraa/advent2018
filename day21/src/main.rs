@@ -48,12 +48,7 @@ struct Instruction {
 
 impl Instruction {
     fn new(op: Opcode, input_a: u64, input_b: u64, output_c: u64) -> Instruction {
-        Instruction {
-            op,
-            input_a,
-            input_b,
-            output_c,
-        }
+        Instruction { op, input_a, input_b, output_c }
     }
 
     fn execute(&self, registers: &[u64; 6]) -> [u64; 6] {

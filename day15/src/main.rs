@@ -1,6 +1,6 @@
 use std::{
     cmp::Ordering,
-    collections::{HashMap, HashSet, BinaryHeap},
+    collections::{BinaryHeap, HashMap, HashSet},
     fmt,
     fs::File,
     io::{self, prelude::*, BufReader},

@@ -23,8 +23,10 @@ fn one_if_true(x: bool) -> u16 {
 impl Opcode {
     fn all_iter() -> Iter<'static, Opcode> {
         static OPCODES: [Opcode; 16] = [
-            Opcode::addr, Opcode::addi, Opcode::mulr, Opcode::muli, Opcode::banr, Opcode::bani, Opcode::borr, Opcode::bori,
-            Opcode::setr, Opcode::seti, Opcode::gtir, Opcode::gtri, Opcode::gtrr, Opcode::eqir, Opcode::eqri, Opcode::eqrr,
+            Opcode::addr, Opcode::addi, Opcode::mulr, Opcode::muli,
+            Opcode::banr, Opcode::bani, Opcode::borr, Opcode::bori,
+            Opcode::setr, Opcode::seti, Opcode::gtir, Opcode::gtri,
+            Opcode::gtrr, Opcode::eqir, Opcode::eqri, Opcode::eqrr,
         ];
         OPCODES.into_iter()
     }

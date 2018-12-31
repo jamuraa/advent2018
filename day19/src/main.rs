@@ -1,6 +1,4 @@
-use std::{
-    fmt,
-};
+use std::fmt;
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
 #[allow(non_camel_case_types)]
@@ -41,7 +39,6 @@ impl Opcode {
     }
 }
 
-
 struct Instruction {
     op: Opcode,
     input_a: u64,
@@ -67,46 +64,45 @@ impl fmt::Display for Instruction {
 }
 
 fn main() {
-
     let mut program: Vec<Instruction> = Vec::new();
 
     let ip_reg: usize = 4;
-    program.push(Instruction::new(Opcode::addi,4,16,4));
-    program.push(Instruction::new(Opcode::seti,1,2 ,5));
-    program.push(Instruction::new(Opcode::seti,1,1 ,1));
-    program.push(Instruction::new(Opcode::mulr,5,1 ,2));
-    program.push(Instruction::new(Opcode::eqrr,2,3 ,2));
-    program.push(Instruction::new(Opcode::addr,2,4 ,4));
-    program.push(Instruction::new(Opcode::addi,4,1 ,4));
-    program.push(Instruction::new(Opcode::addr,5,0 ,0));
-    program.push(Instruction::new(Opcode::addi,1,1 ,1));
-    program.push(Instruction::new(Opcode::gtrr,1,3 ,2));
-    program.push(Instruction::new(Opcode::addr,4,2 ,4));
-    program.push(Instruction::new(Opcode::seti,2,4 ,4));
-    program.push(Instruction::new(Opcode::addi,5,1 ,5));
-    program.push(Instruction::new(Opcode::gtrr,5,3 ,2));
-    program.push(Instruction::new(Opcode::addr,2,4 ,4));
-    program.push(Instruction::new(Opcode::seti,1,8 ,4));
-    program.push(Instruction::new(Opcode::mulr,4,4 ,4));
-    program.push(Instruction::new(Opcode::addi,3,2 ,3));
-    program.push(Instruction::new(Opcode::mulr,3,3 ,3));
-    program.push(Instruction::new(Opcode::mulr,4,3 ,3));
-    program.push(Instruction::new(Opcode::muli,3,11,3));
-    program.push(Instruction::new(Opcode::addi,2,4 ,2));
-    program.push(Instruction::new(Opcode::mulr,2,4 ,2));
-    program.push(Instruction::new(Opcode::addi,2,6 ,2));
-    program.push(Instruction::new(Opcode::addr,3,2 ,3));
-    program.push(Instruction::new(Opcode::addr,4,0 ,4));
-    program.push(Instruction::new(Opcode::seti,0,8 ,4));
-    program.push(Instruction::new(Opcode::setr,4,1 ,2));
-    program.push(Instruction::new(Opcode::mulr,2,4 ,2));
-    program.push(Instruction::new(Opcode::addr,4,2 ,2));
-    program.push(Instruction::new(Opcode::mulr,4,2 ,2));
-    program.push(Instruction::new(Opcode::muli,2,14,2));
-    program.push(Instruction::new(Opcode::mulr,2,4 ,2));
-    program.push(Instruction::new(Opcode::addr,3,2 ,3));
-    program.push(Instruction::new(Opcode::seti,0,0 ,0));
-    program.push(Instruction::new(Opcode::seti,0,0 ,4));
+    program.push(Instruction::new(Opcode::addi, 4, 16, 4));
+    program.push(Instruction::new(Opcode::seti, 1, 2, 5));
+    program.push(Instruction::new(Opcode::seti, 1, 1, 1));
+    program.push(Instruction::new(Opcode::mulr, 5, 1, 2));
+    program.push(Instruction::new(Opcode::eqrr, 2, 3, 2));
+    program.push(Instruction::new(Opcode::addr, 2, 4, 4));
+    program.push(Instruction::new(Opcode::addi, 4, 1, 4));
+    program.push(Instruction::new(Opcode::addr, 5, 0, 0));
+    program.push(Instruction::new(Opcode::addi, 1, 1, 1));
+    program.push(Instruction::new(Opcode::gtrr, 1, 3, 2));
+    program.push(Instruction::new(Opcode::addr, 4, 2, 4));
+    program.push(Instruction::new(Opcode::seti, 2, 4, 4));
+    program.push(Instruction::new(Opcode::addi, 5, 1, 5));
+    program.push(Instruction::new(Opcode::gtrr, 5, 3, 2));
+    program.push(Instruction::new(Opcode::addr, 2, 4, 4));
+    program.push(Instruction::new(Opcode::seti, 1, 8, 4));
+    program.push(Instruction::new(Opcode::mulr, 4, 4, 4));
+    program.push(Instruction::new(Opcode::addi, 3, 2, 3));
+    program.push(Instruction::new(Opcode::mulr, 3, 3, 3));
+    program.push(Instruction::new(Opcode::mulr, 4, 3, 3));
+    program.push(Instruction::new(Opcode::muli, 3, 11, 3));
+    program.push(Instruction::new(Opcode::addi, 2, 4, 2));
+    program.push(Instruction::new(Opcode::mulr, 2, 4, 2));
+    program.push(Instruction::new(Opcode::addi, 2, 6, 2));
+    program.push(Instruction::new(Opcode::addr, 3, 2, 3));
+    program.push(Instruction::new(Opcode::addr, 4, 0, 4));
+    program.push(Instruction::new(Opcode::seti, 0, 8, 4));
+    program.push(Instruction::new(Opcode::setr, 4, 1, 2));
+    program.push(Instruction::new(Opcode::mulr, 2, 4, 2));
+    program.push(Instruction::new(Opcode::addr, 4, 2, 2));
+    program.push(Instruction::new(Opcode::mulr, 4, 2, 2));
+    program.push(Instruction::new(Opcode::muli, 2, 14, 2));
+    program.push(Instruction::new(Opcode::mulr, 2, 4, 2));
+    program.push(Instruction::new(Opcode::addr, 3, 2, 3));
+    program.push(Instruction::new(Opcode::seti, 0, 0, 0));
+    program.push(Instruction::new(Opcode::seti, 0, 0, 4));
 
     let mut ip: u64 = 0;
     let mut registers = [0, 0, 0, 0, 0, 0];
@@ -127,9 +123,9 @@ fn main() {
 
     let mut r0 = 0;
     let r3 = registers[3];
-    for r5 in 1..r3+1 {
+    for r5 in 1..r3 + 1 {
         print!("r5: {} of {}\r", r5, r3);
-        for r1 in 1..r3+1 {
+        for r1 in 1..r3 + 1 {
             if r1 * r5 == r3 {
                 r0 += r5;
             }
@@ -140,5 +136,4 @@ fn main() {
     }
 
     println!("\n r0 halt: {}", r0);
-
 }
