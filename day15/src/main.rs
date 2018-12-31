@@ -1,6 +1,6 @@
 use std::{
     cmp::Ordering,
-    collections::{HashMap, HashSet},
+    collections::{HashMap, HashSet, BinaryHeap},
     fmt,
     fs::File,
     io::{self, prelude::*, BufReader},
@@ -127,20 +127,20 @@ impl Map {
         let mut prev: HashMap<(usize, usize), (usize, usize)> = HashMap::new();
 
         // We don't care if the current spot is occupied or not
-        let mut open = Vec::new();
-        open.push((x, y));
+        let mut open = BinaryHeap::new();
+        open.push((std::usize::MAX - 0, (x, y)));
         dist.insert((x, y), 0);
 
         while !open.is_empty() {
-            open.sort_unstable_by(|a, b| dist[b].cmp(&dist[a]));
-            let u = open.pop().unwrap();
+            let (_, u) = open.pop().unwrap();
 
             for v in neighbors_of(u.0, u.1) {
                 if !self.is_occupied(&v.0, &v.1) {
                     let cur_dist = dist.get(&v).unwrap_or(&std::usize::MAX);
-                    if dist[&u] + 1 < *cur_dist {
-                        open.push(v);
-                        dist.insert(v, dist[&u] + 1);
+                    let new_dist = dist[&u] + 1;
+                    if new_dist < *cur_dist {
+                        open.push((std::usize::MAX - new_dist, v));
+                        dist.insert(v, new_dist);
                         prev.insert(v, u);
                     }
                 }

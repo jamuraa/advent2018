@@ -1,5 +1,5 @@
 use std::{
-    collections::{HashMap, HashSet},
+    collections::{BinaryHeap, HashMap, HashSet},
     fmt,
     fs::File,
     io::{self, prelude::*, BufReader},
@@ -171,18 +171,18 @@ impl Map {
         let mut prev: HashMap<(usize, usize), (usize, usize)> = HashMap::new();
 
         // No doors to the current spot.
-        let mut open = Vec::new();
-        open.push((at.0, at.1));
+        let mut open = BinaryHeap::new();
+        open.push((std::usize::MAX - 0, (at.0, at.1)));
         dist.insert((at.0, at.1), 0);
 
         while !open.is_empty() {
-            open.sort_unstable_by(|a, b| dist[b].cmp(&dist[a]));
-            let u = open.pop().unwrap();
+            let (_, u) = open.pop().unwrap();
 
             for v in self.neighbors(&u) {
                 let cur_dist = dist.get(&v).unwrap_or(&std::usize::MAX);
-                if dist[&u] + 1 < *cur_dist {
-                    open.push(v);
+                let new_dist = dist[&u] + 1;
+                if new_dist < *cur_dist {
+                    open.push((std::usize::MAX - new_dist, v));
                     dist.insert(v, dist[&u] + 1);
                     prev.insert(v, u);
                 }
